@@ -1,2 +1,4 @@
-1. Must have netcat installed
-2. Run nc -l -p <port the same as device A>
+- Must have netcat installed
+- Must be in the same network or use the same hotspot
+- Get the ip address using ifconfig, get the ip of wlan0. Use it on device A
+- Run nc -l -p <port the same as device A>
