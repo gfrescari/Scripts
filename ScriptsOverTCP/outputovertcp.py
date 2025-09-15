@@ -2,7 +2,7 @@ import socket
 import subprocess
 
 ANDROID_IP = '192.168.x.x'  # Replace with your Android IP
-ANDROID_PORT = 8022
+ANDROID_PORT = <port must be the same as device B>
 
 def send_bat_output():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
