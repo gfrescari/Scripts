@@ -1,0 +1,2 @@
+1. Must have netcat installed
+2. Run nc -l -p <port the same as device A>
