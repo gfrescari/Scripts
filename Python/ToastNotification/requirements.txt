@@ -1,0 +1,7 @@
+pynput==1.8.1
+pypiwin32==223
+pywin32==311
+setuptools==80.9.0
+six==1.17.0
+win10toast==0.9
+win10toast-click==0.1.2
