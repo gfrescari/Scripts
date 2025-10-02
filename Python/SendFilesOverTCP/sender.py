@@ -64,3 +64,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# python file_sender.py path/to/your_big_file.iso --host 192.168.1.42 --port 12345 --verify
