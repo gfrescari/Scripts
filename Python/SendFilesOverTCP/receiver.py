@@ -71,3 +71,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# How to use python file_receiver.py --port 12345 --output-dir received_files/
