@@ -16,7 +16,7 @@ def force_borderless_cover_taskbar(window_title):
     win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, win32con.WS_POPUP)
 
     # Make the window topmost and resize to full screen (including taskbar area)
-    win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, screen_width, screen_height,
+    win32gui.SetWindowPos(hwnd, win32con.HWND_NOTOPMOST, 0, 0, screen_width, screen_height,
                           win32con.SWP_FRAMECHANGED | win32con.SWP_SHOWWINDOW)
 
     print(f"Window '{window_title}' forced borderless fullscreen covering taskbar.")
