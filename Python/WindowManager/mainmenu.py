@@ -3,6 +3,7 @@ import borderlesswithtaskbar
 import borderlessnotaskbar
 import alwaysontop
 import stopalwaysontop
+import customoverlay
 
 def exitApp():
     print("Exiting App...")
@@ -38,6 +39,10 @@ def stopontop():
         print(f"The window titled {wintitle} was not found")
     else:
         print(f"The window titled {wintitle} is no longer always on top")
+
+def coverlay():
+    customoverlay.create_overlay_bottom_left()
+    
         
 if __name__ == "__main__":
     main_menu = {
@@ -46,7 +51,8 @@ if __name__ == "__main__":
     "3": {"label": "Force borderless no taskbar", "action": borderless2},
     "4": {"label": "Set on top", "action": setontop},
     "5": {"label": "Stop on top", "action": stopontop},
-    "6": {"label": "Exit", "action": exitApp}
+    "6": {"label": "Custom Overlay", "action": coverlay},
+    "7": {"label": "Exit", "action": exitApp}
     }
     while True:
         print("\n\033[35mAri's Windows Border Manager\033[0m")
