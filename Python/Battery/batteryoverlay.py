@@ -83,6 +83,7 @@ def create_overlay_bottom_left(text="🔴 Click to close"):
         reassert_topmost()
         
     root.after(2000, lambda: maintain_overlay_topmost(hwnd))
+    root.after(2000, lambda: monitor_resolution_changes(root,win_width, win_height))
 
  
     def exit_app():
