@@ -18,6 +18,8 @@ def exit_app():
 root = tk.Tk()
 root.title("Tkinter Layout Example")
 
+# Style must be defined after the main root is created
+
 # Button Style
 style = ttk.Style()
 style.configure("My.TButton",
