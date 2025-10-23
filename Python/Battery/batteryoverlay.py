@@ -47,6 +47,23 @@ def create_overlay_bottom_left(text="🔴 Click to close"):
     )
     label.pack(expand=True, fill="both")
 
+    # --- DRAGGING SUPPORT ---
+    offset_x = offset_y = 0
+
+    def on_press(event):
+        nonlocal offset_x, offset_y
+        offset_x = event.x
+        offset_y = event.y
+
+    def on_drag(event):
+        x = root.winfo_x() + event.x - offset_x
+        y = root.winfo_y() + event.y - offset_y
+        root.geometry(f"+{x}+{y}")
+
+    label.bind("<Button-1>", on_press)
+    label.bind("<B1-Motion>", on_drag)
+    # ------------------------
+    
     # Update and get HWND
     def update_label():
         battery = psutil.sensors_battery()
