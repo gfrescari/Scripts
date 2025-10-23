@@ -28,7 +28,8 @@ def create_overlay_bottom_left(text="🔴 Click to close"):
     root = tk.Tk()
     root.overrideredirect(True)
     root.attributes("-topmost", True)
-    #root.attributes("-transparentcolor", "white")
+    root.attributes("-transparentcolor", "black")
+    root.attributes("-alpha", 0.7)  # 👈 semi-transparency for the whole window (0.0–1.0)
     root.configure(bg="black")
 
     win_width, win_height = 250, 45
@@ -40,7 +41,7 @@ def create_overlay_bottom_left(text="🔴 Click to close"):
         text="Battery: ",
         fg="white",
         bg="black",
-        font=("Segoe UI", 20, "bold"),
+        font=("Segoe UI", 10, "bold"),
         anchor="w",
         padx=10
     )
