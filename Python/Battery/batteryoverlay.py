@@ -29,7 +29,7 @@ def create_overlay_bottom_left(text="🔴 Click to close"):
     root.overrideredirect(True)
     root.attributes("-topmost", True)
     root.attributes("-transparentcolor", "black")
-    root.attributes("-alpha", 0.7)  # 👈 semi-transparency for the whole window (0.0–1.0)
+    #root.attributes("-alpha", 0.7)  # 👈 semi-transparency for the whole window (0.0–1.0)
     root.configure(bg="black")
 
     win_width, win_height = 250, 45
@@ -41,11 +41,23 @@ def create_overlay_bottom_left(text="🔴 Click to close"):
         text="Battery: ",
         fg="white",
         bg="black",
-        font=("Segoe UI", 10, "bold"),
+        font=("Segoe UI Emoji", 10, "bold"),
         anchor="w",
-        padx=10
+        padx=0
     )
-    label.pack(expand=True, fill="both")
+    label.pack(side="left", fill="both")
+    
+    #emoji label
+    lblemo = tk.Label(
+        root,
+        text="🔴",
+        fg="red",
+        bg="black",
+        font=("Segoe UI Emoji", 10, "bold"),
+        anchor="w",
+        padx=0
+    )
+    lblemo.pack(side="left", fill="both")
 
     # --- DRAGGING SUPPORT ---
     offset_x = offset_y = 0
@@ -69,8 +81,19 @@ def create_overlay_bottom_left(text="🔴 Click to close"):
         battery = psutil.sensors_battery()
         if battery:
             isCharging = 'Ch' if battery.power_plugged else 'NCh'
-        label.config(text=f"Battery: {battery.percent}% {isCharging}")
-        root.after(60000, update_label)  # Schedule again in 60 seconds
+            bpercent=battery.percent
+            if bpercent<61:
+                lblemo.config(fg="red")
+            elif bpercent>89:
+                lblemo.config(fg="green")
+            elif bpercent>=61 and bpercent<=89 and isCharging=='Ch':
+                lblemo.config(fg="blue")
+            elif bpercent>=61 and bpercent<=89 and isCharging=='NCh':
+                lblemo.config(fg="yellow")
+            label.config(text=f"Battery: {battery.percent}% {isCharging}")
+        else:
+            label.config(text="No Battery")
+        root.after(30000, update_label)  # Schedule again in 30 seconds
 
     root.after(10000, update_label)  # Start the timer after 10 seconds
     root.update_idletasks()
