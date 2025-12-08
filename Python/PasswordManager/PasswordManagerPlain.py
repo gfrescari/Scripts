@@ -9,11 +9,11 @@ PASSWORD_FILE = "passwords.json"
 def load_passwords():
     if not os.path.exists(PASSWORD_FILE):
         return {}
-    with open(PASSWORD_FILE, "r") as file:
+    with open(PASSWORD_FILE, "r",encoding="utf-8") as file:
         return json.load(file)
 
 def save_passwords(passwords):
-    with open(PASSWORD_FILE, "w") as file:
+    with open(PASSWORD_FILE, "w",encoding="utf-8") as file:
         json.dump(passwords, file, indent=4)
 
 def add_password():
@@ -48,9 +48,19 @@ def get_password_auto():
         for i in range(5):
             print(f'\rWaiting {i + 1}/5 seconds', end='')
             time.sleep(1)
-        pyautogui.write(entry["username"])
+        #pyautogui.write(entry["username"])
+        #pyautogui.press("tab")
+        #pyautogui.write(entry["password"])
+        #pyautogui.press("enter")
+        pyperclip.copy(entry["username"])
+        time.sleep(0.5)
+        pyautogui.hotkey("ctrl", "v")
+        time.sleep(0.5)
         pyautogui.press("tab")
-        pyautogui.write(entry["password"])
+        pyperclip.copy(entry["password"])
+        time.sleep(0.5)
+        pyautogui.hotkey("ctrl", "v")
+        time.sleep(0.5)
         pyautogui.press("enter")
     else:
         print("Service not found.")
