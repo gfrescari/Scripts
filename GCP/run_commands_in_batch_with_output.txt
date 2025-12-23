@@ -1,0 +1,12 @@
+# Run commands in brackets > file.txt
+(
+  echo "[$(date)] Starting script..."
+  
+  # bq add-iam-policy-binding
+  # bq add-iam-policy-binding
+  
+  echo "[$(date)] Done!"
+) > "dataviewer-$(gcloud info --format="value(config.project)")_$(date +'%Y%m%d_%H%M%S').txt" 2>&1 # filename automatically gets the current project id
+
+# Read the generated output text file immediately by using grep
+grep "Success" "$(ls -t | head -n 1)" | nl -w1 -s': ' # shows sequenced number of occurences in the last modified file
