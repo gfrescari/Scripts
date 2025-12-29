@@ -3,7 +3,7 @@ import json
 import subprocess
 from datetime import datetime
 
-# Android 15
+# Android 15 Samsung
 
 def run(cmd):
     return subprocess.check_output(cmd, shell=True).decode().strip()
