@@ -4,6 +4,8 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 import uvicorn
 
+# pip install fastapi uvicorn psutil wmi
+
 app = FastAPI()
 c = wmi.WMI(namespace="root\\OpenHardwareMonitor")
 
