@@ -112,6 +112,14 @@ ipconfig
 
 ---
 
-If you want, I can also make a **tiny visual diagram** showing Windows, hotspot, and tablets with arrows for traffic flow — this is very helpful in documentation.
+### **Ultimate Checklist — FastAPI Access over Hotspot**
 
-Do you want me to do that?
+1. **Uvicorn host:** `uvicorn.run(app, host="0.0.0.0", port=8000)` ✅
+2. **Windows network profile:** set to **Private** (`Set-NetConnectionProfile -Name "<SSID>" -NetworkCategory Private`) ✅
+3. **Firewall inbound rule:** allow TCP on FastAPI port (`New-NetFirewallRule -DisplayName "Allow FastAPI Port 8000" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow -Profile Private`) ✅
+4. **Optional (ping test):** allow ICMP inbound (`New-NetFirewallRule -Name "Allow ICMPv4-In" -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -Profile Private`)
+5. **Access from tablets:** open `http://<Windows-IP>:8000`
+
+✅ Following these five points ensures FastAPI is accessible from devices connected to the same hotspot without changing routers or using ngrok.
+
+---
