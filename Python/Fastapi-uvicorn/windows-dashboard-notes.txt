@@ -1,0 +1,117 @@
+# **FastAPI Dashboard Access via Android Hotspot – Quick Checklist**
+
+### **Prerequisites**
+
+* Windows 11 PC running FastAPI + Uvicorn
+* Android tablet hotspot active
+* Other devices (tablets/phones) connected to the hotspot
+
+---
+
+### **Step 1 — Configure Uvicorn**
+
+Make sure FastAPI listens on all network interfaces:
+
+```python
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+```
+
+* `0.0.0.0` → allows connections from any device on the network
+
+---
+
+### **Step 2 — Set Windows network profile to Private**
+
+1. Open PowerShell **as Administrator**
+2. Check current network profile:
+
+```powershell
+Get-NetConnectionProfile
+```
+
+3. Change hotspot network to Private:
+
+```powershell
+Set-NetConnectionProfile -Name "<SSID>" -NetworkCategory Private
+```
+
+* Replace `<SSID>` with your hotspot name
+
+✅ This allows firewall rules for inbound connections to apply
+
+---
+
+### **Step 3 — Configure Windows Firewall**
+
+1. Allow inbound TCP traffic for FastAPI:
+
+```powershell
+New-NetFirewallRule -DisplayName "Allow FastAPI Port 8000" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow -Profile Private
+```
+
+2. Optional — allow ping for testing:
+
+```powershell
+New-NetFirewallRule -Name "Allow ICMPv4-In" -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -Profile Private
+```
+
+---
+
+### **Step 4 — Verify Uvicorn is listening**
+
+```powershell
+netstat -ano | findstr :8000
+```
+
+* Confirm `0.0.0.0:8000` is listening → ready to accept connections
+
+---
+
+### **Step 5 — Connect tablets**
+
+1. Tablets connect to Android hotspot
+2. Open browser → enter Windows hotspot IP + port:
+
+```
+http://<windows-ip>:8000
+```
+
+* You can get Windows IP via:
+
+```powershell
+ipconfig
+```
+
+* Look for `IPv4 Address` under hotspot adapter
+
+---
+
+### **Step 6 — Testing**
+
+1. Ping Windows PC from tablet (optional) → confirms network reachability
+2. Open FastAPI dashboard on tablet → should load successfully
+
+---
+
+### **Notes / Troubleshooting**
+
+* If dashboard inaccessible:
+
+  * Recheck network profile = Private
+  * Ensure firewall rule covers the correct profile
+  * Make sure Uvicorn running and listening on `0.0.0.0`
+
+* Outbound internet access is **unaffected**
+
+* Android hotspot NAT generally allows TCP between connected tablets but blocks inbound to PC if firewall/profile misconfigured
+
+---
+
+✅ **Result:** Tablets can access FastAPI dashboard via hotspot without router changes.
+
+---
+
+If you want, I can also make a **tiny visual diagram** showing Windows, hotspot, and tablets with arrows for traffic flow — this is very helpful in documentation.
+
+Do you want me to do that?
