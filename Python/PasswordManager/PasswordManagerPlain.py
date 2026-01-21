@@ -26,7 +26,9 @@ def add_password():
     print(f"Password for {service} saved.")
 
 def delete_password():
-    service = input("Enter service name: ")
+    services=list_services2()
+    choice = input("Enter service number: ")
+    service=services[int(choice)]
     passwords = load_passwords()
     if service in passwords:
         confirm = input(f"Are you sure you want to delete '{service}'? (y/n): ").lower()
@@ -40,15 +42,18 @@ def delete_password():
         print(f"No password found for '{service}'.")
         
 def get_password_auto():
-    service = input("Enter service name: ")
+    services=list_services2()
+    choice = input("Enter service number: ")
+    service=services[int(choice)]
     passwords = load_passwords()
     if service in passwords:
         entry = passwords[service]
         print("Five seconds to focus to app/web and click username field")
         for i in range(5):
             print(f'\rWaiting {i + 1}/5 seconds', end='')
-            time.sleep(1)
+            time.sleep(1)            
         #pyautogui.write(entry["username"])
+        #time.sleep(1)
         #pyautogui.press("tab")
         #pyautogui.write(entry["password"])
         #pyautogui.press("enter")
@@ -62,11 +67,14 @@ def get_password_auto():
         pyautogui.hotkey("ctrl", "v")
         time.sleep(0.5)
         pyautogui.press("enter")
+        
     else:
         print("Service not found.")
         
 def get_password():
-    service = input("Enter service name: ")
+    services=list_services2()
+    choice = input("Enter service number: ")
+    service=services[int(choice)]
     passwords = load_passwords()
     if service in passwords:
         entry = passwords[service]
@@ -84,6 +92,20 @@ def list_services():
         print("Saved services:")
         for service in passwords:
             print(f"- {service}")
+
+def list_services2():
+    services=[None]
+    index=1
+    passwords = load_passwords()
+    if not passwords:
+        print("No saved services.")
+    else:
+        print("Saved services:")
+        for service in passwords:
+            print(f"{index}-{service}")
+            services.append(service)
+            index=index+1
+    return services
            
 def exit_program():
     print("👋 Exiting. Stay safe!")
@@ -99,7 +121,7 @@ def main():
     "6": {"label": "Exit", "action": exit_program}
     }
     while True:
-        print("\nPassword Manager")
+        print("\n\033[35mAri's Password Manager\033[0m")
         
         for key,item in main_menu.items():
             print(f"{key}. {item['label']}")
