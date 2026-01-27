@@ -30,13 +30,15 @@ echo "Timestamp: ${TIMESTAMP}" >> "$LOG_FILE"
 echo "${MEMBER_LABEL}: ${MEMBER}" >> "$LOG_FILE"
 echo "----------------------------------------" >> "$LOG_FILE"
 
+INDEX=1
 for TABLE in "$@"; do
   CMD="bq add-iam-policy-binding --member=${MEMBER} --role=roles/bigquery.dataViewer --table=true ${TABLE}"
 
-  echo "Granting roles/bigquery.dataViewer to ${MEMBER} on ${TABLE}"
+  echo "${INDEX}: Granting roles/bigquery.dataViewer to ${MEMBER} on ${TABLE}"
   echo "$CMD" >> "$LOG_FILE"
 
-  $CMD >> "$LOG_FILE" 2>&1
+  $CMD >> "$LOG_FILE" 2>&1 && sleep 1
+  INDEX=INDEX+1
 done
 
 echo "----------------------------------------" >> "$LOG_FILE"
