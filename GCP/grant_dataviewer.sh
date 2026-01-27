@@ -38,7 +38,7 @@ for TABLE in "$@"; do
   echo "$CMD" >> "$LOG_FILE"
 
   $CMD >> "$LOG_FILE" 2>&1 && sleep 1
-  INDEX=INDEX+1
+  INDEX=$((INDEX+1))
 done
 
 echo "----------------------------------------" >> "$LOG_FILE"
