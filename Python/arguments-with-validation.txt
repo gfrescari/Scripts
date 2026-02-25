@@ -1,0 +1,204 @@
+Got it! We can extend your CLI template to **validate the inputs** using **conditional checks** and **regex**, and display a warning/error if the inputs are invalid. Here's the updated version:
+
+---
+
+## ✅ CLI Template with Input Validation
+
+```python
+#!/usr/bin/env python3
+
+import argparse
+import re
+import sys
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Comprehensive CLI template with flags, options, positional arguments, and validation."
+    )
+
+    # ---------------------------
+    # Positional arguments
+    # ---------------------------
+    parser.add_argument(
+        "input1",
+        type=str,
+        help="First input (single value)"
+    )
+
+    parser.add_argument(
+        "input2",
+        type=str,
+        nargs="+",
+        help="Second input(s), one or more values"
+    )
+
+    # ---------------------------
+    # Optional flags and options
+    # ---------------------------
+
+    # Boolean flag
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        help="Enable verbose mode"
+    )
+
+    # Optional single-value option
+    parser.add_argument(
+        "-o", "--output",
+        type=str,
+        default="output.txt",
+        help="Output file (default: output.txt)"
+    )
+
+    # Optional option with multiple integer values
+    parser.add_argument(
+        "-n", "--numbers",
+        type=int,
+        nargs="+",
+        help="One or more integer numbers"
+    )
+
+    # Optional option with multiple string values
+    parser.add_argument(
+        "-s", "--strings",
+        type=str,
+        nargs="+",
+        help="One or more string values"
+    )
+
+    args = parser.parse_args()
+
+    # ---------------------------
+    # Input validation
+    # ---------------------------
+
+    # Validate input1: must be alphanumeric, 3-20 characters
+    if not re.match(r'^[a-zA-Z0-9]{3,20}$', args.input1):
+        print(f"⚠️  Invalid input1: '{args.input1}'. Must be alphanumeric, 3-20 characters.")
+        sys.exit(1)
+
+    # Validate each value in input2: must be alphabetic and at least 2 chars
+    for val in args.input2:
+        if not val.isalpha() or len(val) < 2:
+            print(f"⚠️  Invalid input2 value: '{val}'. Must contain only letters and be at least 2 characters.")
+            sys.exit(1)
+
+    # Validate --numbers: each number must be positive
+    if args.numbers:
+        for num in args.numbers:
+            if num <= 0:
+                print(f"⚠️  Invalid number: {num}. Must be positive.")
+                sys.exit(1)
+
+    # Validate --strings: each string must be letters or underscores only
+    if args.strings:
+        pattern = r'^[A-Za-z_]+$'
+        for s in args.strings:
+            if not re.match(pattern, s):
+                print(f"⚠️  Invalid string: '{s}'. Must contain only letters or underscores.")
+                sys.exit(1)
+
+    # ---------------------------
+    # Example usage
+    # ---------------------------
+    print("=== Parsed Arguments ===")
+    print(f"Input 1: {args.input1}")
+    print(f"Input 2: {args.input2}")
+    print(f"Output: {args.output}")
+    print(f"Verbose: {args.verbose}")
+    print(f"Numbers: {args.numbers}")
+    print(f"Strings: {args.strings}")
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+## 🔹 Validation Rules
+
+| Argument    | Validation Rule                               |
+| ----------- | --------------------------------------------- |
+| `input1`    | Alphanumeric, 3–20 characters                 |
+| `input2`    | Only letters, at least 2 characters per value |
+| `--numbers` | Must be positive integers                     |
+| `--strings` | Only letters or underscores per value         |
+
+---
+
+## 🔹 Example Usage
+
+1. ✅ **Valid input**:
+
+```bash
+python script.py abc hello world -n 1 2 3 -s tag_one tagTwo
+```
+
+Output:
+
+```
+=== Parsed Arguments ===
+Input 1: abc
+Input 2: ['hello', 'world']
+Output: output.txt
+Verbose: False
+Numbers: [1, 2, 3]
+Strings: ['tag_one', 'tagTwo']
+```
+
+2. ⚠️ **Invalid input1**:
+
+```bash
+python script.py a! hello world
+```
+
+Output:
+
+```
+⚠️  Invalid input1: 'a!'. Must be alphanumeric, 3-20 characters.
+```
+
+3. ⚠️ **Invalid input2**:
+
+```bash
+python script.py abc h w
+```
+
+Output:
+
+```
+⚠️  Invalid input2 value: 'h'. Must contain only letters and be at least 2 characters.
+```
+
+4. ⚠️ **Invalid --numbers**:
+
+```bash
+python script.py abc hello world -n 1 -2
+```
+
+Output:
+
+```
+⚠️  Invalid number: -2. Must be positive.
+```
+
+5. ⚠️ **Invalid --strings**:
+
+```bash
+python script.py abc hello world -s valid invalid!
+```
+
+Output:
+
+```
+⚠️  Invalid string: 'invalid!'. Must contain only letters or underscores.
+```
+
+---
+
+This approach makes the CLI **robust**, immediately warns the user, and prevents invalid data from being processed.
+
+If you want, I can also **integrate this input validation into the advanced subcommand template** we made earlier — so **all subcommands and their options are validated automatically**.
+
+Do you want me to do that next?
