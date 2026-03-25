@@ -1,0 +1,153 @@
+Absolutely! Here’s a **step-by-step guide to install Ruby in Termux** along with the extra steps you’ll likely need for CLI/TUI development. I’ll make it clean and practical so you can start scripting right away.
+
+---
+
+# **1️⃣ Update Termux packages**
+
+Always start by updating Termux to ensure all dependencies are fresh:
+
+```bash
+pkg update && pkg upgrade -y
+```
+
+---
+
+# **2️⃣ Install Ruby**
+
+Install the Ruby package directly from Termux’s repositories:
+
+```bash
+pkg install ruby -y
+```
+
+✅ This installs:
+
+* Ruby interpreter
+* Standard library (`irb`, `json`, `fileutils`, etc.)
+
+Check installation:
+
+```bash
+ruby -v
+```
+
+You should see something like:
+
+```
+ruby 4.0.0p0 (2025-12-25) [aarch64-linux-android]
+```
+
+---
+
+# **3️⃣ Install build tools (optional but recommended)**
+
+Some gems (especially C extensions) need build tools:
+
+```bash
+pkg install clang make git -y
+```
+
+* `clang` → compiler
+* `make` → build scripts
+* `git` → fetch gem sources
+
+---
+
+# **4️⃣ Install a Gem manager (optional)**
+
+Ruby comes with `gem` by default, but make sure it’s working:
+
+```bash
+gem -v
+```
+
+You should see a version like `4.1.0`.
+
+---
+
+# **5️⃣ Install CLI/TUI gems**
+
+For building CLI or TUI apps, you might want:
+
+### **TTY toolkit (menus, prompts, tables)**
+
+```bash
+gem install tty-prompt tty-table tty-font
+```
+
+### **Curses (low-level TUI)**
+
+```bash
+gem install curses
+```
+
+💡 Note: Some curses gems may require `ncurses`:
+
+```bash
+pkg install ncurses -y
+```
+
+---
+
+# **6️⃣ Optional: Set up a “Ruby Box” environment**
+
+If you want isolation like Python `venv`:
+
+```bash
+gem install ruby_box
+```
+
+Then, you can create isolated projects without affecting global gems.
+
+---
+
+# **7️⃣ Test a simple CLI script**
+
+Create `hello.rb`:
+
+```ruby
+require 'tty-prompt'
+
+prompt = TTY::Prompt.new
+name = prompt.ask("What's your name?")
+puts "Hello, #{name}!"
+```
+
+Run it:
+
+```bash
+ruby hello.rb
+```
+
+You should get an interactive prompt in Termux.
+
+---
+
+# **8️⃣ Optional: Install a text editor**
+
+* `pkg install nano -y` → lightweight terminal editor
+* `pkg install vim -y` → full-featured
+* `pkg install neovim -y` → modern Vim with plugin support
+
+---
+
+# **✅ Extra Tips for Termux**
+
+1. Keep Termux packages updated:
+
+```bash
+pkg update && pkg upgrade -y
+```
+
+2. If you plan multiple projects, **use Ruby Box** to avoid gem version conflicts.
+3. You can create shortcuts in Termux with `alias` to run scripts faster:
+
+```bash
+alias myapp='ruby ~/projects/myapp/app.rb'
+```
+
+---
+
+If you want, I can make a **ready-to-go Termux CLI/TUI project template in Ruby** so you can just copy, install dependencies, and run it immediately. This is very handy for testing Ruby CLI apps.
+
+Do you want me to do that?
