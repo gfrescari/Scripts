@@ -2,7 +2,6 @@ import json
 from textual.app import App, ComposeResult
 from textual.widgets import Header, Footer, ListView, ListItem, Label, Input, Static, Button
 from textual.containers import Vertical, Horizontal
-import os
 import pyperclip
 import pyautogui
 import asyncio
@@ -103,7 +102,8 @@ class PassMgr(App):
         for item in self.items:
             list_item = ListItem(Label(item))  # ID = service name
             self.listPasswd.append(list_item)
-        self.parallelList = list(self.load_items().keys())
+        self.parallelList = list(self.items.keys())
+        # self.parallelList = list(self.load_items().keys()) # this is the oneliner to get list from json. not used to avoid double json load
         
     # ---------- Add Item ----------
     
